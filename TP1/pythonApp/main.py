@@ -9,6 +9,9 @@ from PyQt5.QtWidgets import QFileDialog
 from src.tp1Application import myTp1Application
 
 
+##################################
+# TP1
+
 if __name__ == "__main__":
 
     app = QApplication([])
