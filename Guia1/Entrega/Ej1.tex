@@ -1,0 +1,77 @@
+\section*{Ejercicio 1}
+
+\subsection*{d) $T[x(nT)] = 5nT x^2(nT)$}
+
+\begin{itemize}
+    \item Linealidad:
+    
+    \[T[\alpha\, x_1(nT) + \beta\, x_2(nT)] = 5nT(\alpha\, x_1(nT) + \beta\, x_2(nT))^2\]
+\[\alpha\, T[x_1(nT)] + \beta\, T[x_2(nT)] = \alpha \,5nT\,x_1^2(nT) + \beta\, 5nT\,x_2^2(nT)\]
+\[\Rightarrow T[\alpha\, x_1(nT) + \beta\, x_2(nT)] \neq \alpha\, T[x_1(nT)] + \beta\, T[x_2(nT)]\]
+ $$\therefore \text{No es lineal}$$
+    
+    \item Invariancia en el Tiempo:
+    
+    \[x(nT) \xrightarrow{T[\,]} 5nT\,x^2(nT) \xrightarrow{T_k} 5(nT-kT)\,x^2(nT-kT)\]
+\[x(nT) \xrightarrow{T_k} x(nT-kT) \xrightarrow{T[\,]} 5nT\, x^2(nT-kT)\]
+$$\therefore \text{No es tiempo invariante}$$
+
+    \item Causalidad:
+    
+    \[T[x_1(nT)] = 5n\,x^2_1(nT)\]
+\[T[x_2(nT)] = 5n\,x^2_2(nT)\]
+
+\[x_1(nT)=x_2(nT) \,\forall n\leq k \Rightarrow T[x_1(nT)]=T[x_2(nT)] \,\forall n\leq k\]
+ $$\therefore \text{Es causal}$$
+
+\end{itemize}
+
+\subsection*{i) $T[x(nT)] = x(nT + T) e^{-nT}$}
+
+\begin{itemize}
+    \item Linealidad:
+    
+    \[T[\alpha\, x_1(nT) + \beta\, x_2(nT)] = (\alpha\, x_1(nT+T) + \beta\, x_2(nT+T))\,e^{-nT}\]
+\[= \alpha \cdot [x_1(nT+T)\,e^{-nT}] + \beta \cdot [x_2(nT+T)\,e^{-nT}] = \alpha\, T[x_1(nT)] + \beta \, T[x_2(nT)]\]
+ $$\therefore \text{Es lineal}$$
+ 
+    \item Invariancia en el Tiempo:
+    
+    \[x(nT) \xrightarrow{T[\,]} x(nT+T)\,e^{-nT}\xrightarrow{T_k} x(nT-kT+T)\,e^{-(nT-kT)} \]
+\[x(nT) \xrightarrow{T_k} x(nT-kT) \xrightarrow{T[\,]} x(nT-kT+T)\,e^{-nT}\]
+    $$\therefore \text{No es tiempo invariante}$$
+    
+    \item Causalidad:
+    
+    \[T[x_1(nT)] = x_1(nT+T)\,e^{-nT}\]
+\[T[x_2(nT)] = x_2(nT+T)\,e^{-nT}\]
+
+\[x_1(m)\neq x_2(m) \,\forall m>k \Rightarrow T[x_1(nT)]\neq T[x_2(nT)] \text{ si } n > k-1 \]
+ $$\therefore \text{No es causal}$$
+    
+\end{itemize}
+
+\subsection*{k) $T[x(n)]=x(Mn)$}
+
+\begin{itemize}
+    \item Linealidad:
+    
+    \[T[\alpha\, x_1(n) + \beta\, x_2(n)] = \alpha\, x_1(Mn) + \beta\, x_2(Mn)\]
+    \[=  \alpha\, [x_1(Mn)] + \beta\, [x_2(Mn)] = \alpha\, T[ x_1(n)] + \beta\, T[x_2(n)]\]
+     $$\therefore \text{Es lineal}$$
+     
+    \item Invariancia en el Tiempo:
+    
+     \[x(n) \xrightarrow{T[\,]} x(Mn)\xrightarrow{T_k} x(Mn-kM) \]
+     \[x(n) \xrightarrow{T_k} x(n-k) \xrightarrow{T[\,]} x(M(n-k)) = x(Mn-kM)\]
+    $$\therefore \text{Es tiempo invariante}$$
+    
+    \item Causalidad:
+    
+     \[T[x_1(n)] = x_1(Mn)\]
+\[T[x_2(n)] = x_2(Mn)\]
+
+\[x_1(n)=x_2(n) \,\forall n\leq k \Rightarrow T[x_1(n)]=T[x_2(n)] \,\forall n\leq k \]
+ $$\therefore \text{Es causal}$$
+    
+\end{itemize}
