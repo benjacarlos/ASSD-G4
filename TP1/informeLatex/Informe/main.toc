@@ -1,0 +1,3 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}Caracterización de Amplificadores Operacionales}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Introducción}{2}{subsection.1.1}%
