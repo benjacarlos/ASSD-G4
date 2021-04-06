@@ -656,9 +656,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>320</y>
+      <y>270</y>
       <width>531</width>
-      <height>361</height>
+      <height>411</height>
      </rect>
     </property>
    </widget>
@@ -666,9 +666,9 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>320</y>
+      <y>270</y>
       <width>531</width>
-      <height>361</height>
+      <height>411</height>
      </rect>
     </property>
    </widget>

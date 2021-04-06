@@ -77,11 +77,14 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         if self.includeRF.isChecked():
             print ("Recovery Filter esta incluido")
 
-        self.timePlot.canvas.axes.grid(which='both', axis='both')
-        theLegend = self.timePlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
+        title = "Signal Sampled: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
         self.timePlot.canvas.axes.axes.set_ylabel("V [V]")
-        self.timePlot.canvas.axes.title.set_text('Signal in Time')
+        self.timePlot.canvas.axes.title.set_text(title)
+        self.timePlot.canvas.axes.grid(which='both', axis='both')
+        theLegend = self.timePlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
+        self.timePlot.canvas.figure.tight_layout()
+
         self.timePlot.canvas.draw()
 
 

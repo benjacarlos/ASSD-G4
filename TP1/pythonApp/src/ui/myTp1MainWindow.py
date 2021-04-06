@@ -205,10 +205,10 @@ class Ui_MainWindow(object):
         self.periodInputLabel_16.setObjectName("periodInputLabel_16")
         self.stackedInputSignalOptions.addWidget(self.stackedAM)
         self.timePlot = plotTimeClass(self.centralwidget)
-        self.timePlot.setGeometry(QtCore.QRect(30, 320, 531, 361))
+        self.timePlot.setGeometry(QtCore.QRect(30, 270, 531, 411))
         self.timePlot.setObjectName("timePlot")
         self.frequencyPlot = plotFrequencyClass(self.centralwidget)
-        self.frequencyPlot.setGeometry(QtCore.QRect(580, 320, 531, 361))
+        self.frequencyPlot.setGeometry(QtCore.QRect(580, 270, 531, 411))
         self.frequencyPlot.setObjectName("frequencyPlot")
         MainWindow.setCentralWidget(self.centralwidget)
 
