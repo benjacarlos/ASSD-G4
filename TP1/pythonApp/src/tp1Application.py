@@ -80,9 +80,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.figure.tight_layout()
 
         if self.includeFAA.isChecked():
-            print ("FAA esta incluido")
-            (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
-            self.y = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
+            self.signalFilteredByFAA()
             self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
             self.timePlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
@@ -109,9 +107,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.figure.tight_layout()
 
         if self.includeFAA.isChecked():
-            print ("FAA esta incluido")
-            (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
-            self.y = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
+            self.signalFilteredByFAA()
             self.timeToFTT()
             self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
             self.frequencyPlot.canvas.figure.tight_layout()
@@ -133,12 +129,18 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.draw()
 
     def timeToFTT(self):
-        self.fourierSignal = fft(self.y,n=1000000)#, n=100000)
+        self.fourierSignal = fft(self.y,n=1000000)
         #self.signal_psd = 20 * np.log(np.abs(self.fourierSignal))
         self.f = fftfreq(len(self.fourierSignal), self.dt)
         i = self.f > 0
         self.f = self.f[i]
         self.fourierSignal = self.fourierSignal[i]
+
+    def signalFilteredByFAA(self):
+        print ("FAA esta incluido")
+        (self.num, self.den, self.dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
+        self.y = signal.filtfilt(self.num.squeeze(), self.den.squeeze(), self.y)
+
 
 
 
