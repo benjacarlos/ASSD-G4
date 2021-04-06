@@ -49,17 +49,14 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def defineInput(self):
         period = 1.0 / self.frequency
+        self.t = np.linspace(0, 4*period, 1000)
         if self.signalType == 'Sine':
-            self.t = np.linspace(0, 4*period, 1000)
             self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t)
         elif self.signalType == 'Cosine':
-            self.t = np.linspace(0, 4*period, 1000)
             self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + 0.5*np.pi)
         elif self.signalType == 'Sawtooth':
-            self.t = np.linspace(0, 4*period, 1000)
             self.y = self.vp * signal.sawtooth(2*np.pi*self.frequency*self.t)
         elif self.signalType == 'Impulse':
-            self.t = np.linspace(0, 4*period, 1000)
             self.y = self.vp * signal.square(2 * np.pi * self.frequency * self.t, 0.5)
         elif self.signalType == 'AM':
             self.fm = 0.2 * self.frequency
@@ -106,16 +103,25 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.draw()
 
     def plotFrequencySignal(self):
-        self.fourierSignal = fft(self.y,n=1000000)#, n=100000)
-        #self.signal_psd = 20 * np.log(np.abs(self.fourierSignal))
-        self.f = fftfreq(len(self.fourierSignal), self.dt)
-        i = self.f > 0
-        self.f = self.f[i]
-        self.fourierSignal = self.fourierSignal[i]
-
+        self.timeToFTT()
         self.frequencyPlot.canvas.axes.clear()
         self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin')
         self.frequencyPlot.canvas.figure.tight_layout()
+
+        if self.includeFAA.isChecked():
+            print ("FAA esta incluido")
+            (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
+            self.y = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
+            self.timeToFTT()
+            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
+            self.frequencyPlot.canvas.figure.tight_layout()
+        if self.includeSH.isChecked():
+            print ("SH esta incluido")
+        if self.includeAnalogKey.isChecked():
+            print ("Analog Key esta incluido")
+        if self.includeRF.isChecked():
+            print ("Recovery Filter esta incluido")
+
         title = "Signal Sampled: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
         self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud [Db]")
@@ -126,7 +132,13 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 
-
+    def timeToFTT(self):
+        self.fourierSignal = fft(self.y,n=1000000)#, n=100000)
+        #self.signal_psd = 20 * np.log(np.abs(self.fourierSignal))
+        self.f = fftfreq(len(self.fourierSignal), self.dt)
+        i = self.f > 0
+        self.f = self.f[i]
+        self.fourierSignal = self.fourierSignal[i]
 
 
 
