@@ -108,6 +108,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timePlot.canvas.figure.tight_layout()
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
+            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Recovered with RF')
+            self.timePlot.canvas.figure.tight_layout()
+
 
         title = "Signal Sampled: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
@@ -142,6 +145,10 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
+            self.timeToFTT()
+            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
+            self.frequencyPlot.canvas.figure.tight_layout()
+
 
         title = "Signal Sampled: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
@@ -192,6 +199,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def signalFilteredByRF(self):
         print ("RecoveryFilter esta incluido")
+        self.signalFilteredByFAA()
 
 
 
