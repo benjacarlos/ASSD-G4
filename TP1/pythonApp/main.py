@@ -10,7 +10,8 @@ from src.tp1Application import myTp1Application
 
 
 ##################################
-# TP1
+# TP1                            #
+##################################
 
 if __name__ == "__main__":
 
