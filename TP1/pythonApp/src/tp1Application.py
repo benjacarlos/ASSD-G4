@@ -31,6 +31,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         msgWrongInput = QMessageBox()
         msgWrongInput.setIcon(QMessageBox.Warning)
         msgWrongInput.setWindowTitle('Error')
+
         self.includeFAAOption = False
         self.includeSHOption = False
         self.includeAnalogSwitchOption = False
@@ -41,34 +42,37 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.phase = float(self.phaseForSine.text())
         self.period = float(self.periodInputBox.text())
         self.dutyCycle = float(self.dutyCycleInputBox.text())
+        self.defineInput()
         self.plotTimeSignal()
 
-    def plotTimeSignal(self):
+    def defineInput(self):
         period = 1.0 / self.frequency
         if self.signalType == 'Sine':
-            t = np.linspace(0, 4*period, 1000)
-            y = self.vp * np.sin(2*np.pi*self.frequency*t)
+            self.t = np.linspace(0, 4*period, 1000)
+            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t)
         elif self.signalType == 'Cosine':
-            t = np.linspace(0, 4*period, 1000)
-            y = self.vp * np.sin(2*np.pi*self.frequency*t + 0.5*np.pi)
+            self.t = np.linspace(0, 4*period, 1000)
+            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + 0.5*np.pi)
         elif self.signalType == 'Sawtooth':
-            t = np.linspace(0, 4*period, 1000)
-            y = self.vp * signal.sawtooth(2*np.pi*self.frequency*t)
+            self.t = np.linspace(0, 4*period, 1000)
+            self.y = self.vp * signal.sawtooth(2*np.pi*self.frequency*self.t)
         elif self.signalType == 'Impulse':
-            t = np.linspace(0, 4*period, 1000)
-            y = self.vp * signal.square(2 * np.pi * self.frequency * t, 0.5)
+            self.t = np.linspace(0, 4*period, 1000)
+            self.y = self.vp * signal.square(2 * np.pi * self.frequency * self.t, 0.5)
+        self.dt = self.t[1] - self.t[0]
 
-        dt = t[1] - t[0]
+
+    def plotTimeSignal(self):
+
         self.timePlot.canvas.axes.clear()
-        self.timePlot.canvas.axes.plot(t,y,label='Xin')
+        self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
         self.timePlot.canvas.figure.tight_layout()
 
         if self.includeFAA.isChecked():
             print ("FAA esta incluido")
-            x=y
-            (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), dt)
-            yout = signal.filtfilt(num.squeeze(), den.squeeze(), x)
-            self.timePlot.canvas.axes.plot(t,yout,label='Xin Filtrada')
+            (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
+            yout = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
+            self.timePlot.canvas.axes.plot(self.t,yout,label='Xin Filtrada')
             self.timePlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
             print ("SH esta incluido")
