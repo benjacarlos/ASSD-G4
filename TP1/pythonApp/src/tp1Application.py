@@ -59,6 +59,16 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         elif self.signalType == 'Impulse':
             self.t = np.linspace(0, 4*period, 1000)
             self.y = self.vp * signal.square(2 * np.pi * self.frequency * self.t, 0.5)
+        elif self.signalType == 'AM':
+            self.fm = 0.2 * self.frequency
+            self.fp = 2 * self.frequency
+            m = 0.5
+            period = 1/self.fm
+            self.t = np.linspace(0, period, 1000)
+            ym = np.cos(2 * np.pi * self.fm * self.t)
+            yp = np.cos(2 * np.pi * self.fp * self.t)
+            self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
+            # self.y = self.amplitude * (m * ym + 1)*yp
         self.dt = self.t[1] - self.t[0]
 
 
