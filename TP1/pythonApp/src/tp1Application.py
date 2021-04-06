@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from src.ui.myTp1MainWindow import Ui_MainWindow
 from scipy import signal
+from scipy.fftpack import fft, fftfreq
 import numpy as np
 
 class myTp1Application(QMainWindow, Ui_MainWindow):
@@ -44,6 +45,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.dutyCycle = float(self.dutyCycleInputBox.text())
         self.defineInput()
         self.plotTimeSignal()
+        self.plotFrequencySignal()
 
     def defineInput(self):
         period = 1.0 / self.frequency
@@ -72,6 +74,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.dt = self.t[1] - self.t[0]
 
 
+
+
     def plotTimeSignal(self):
 
         self.timePlot.canvas.axes.clear()
@@ -81,8 +85,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         if self.includeFAA.isChecked():
             print ("FAA esta incluido")
             (num, den, dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
-            yout = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
-            self.timePlot.canvas.axes.plot(self.t,yout,label='Xin Filtrada')
+            self.y = signal.filtfilt(num.squeeze(), den.squeeze(), self.y)
+            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
             self.timePlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
             print ("SH esta incluido")
@@ -100,6 +104,27 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.figure.tight_layout()
 
         self.timePlot.canvas.draw()
+
+    def plotFrequencySignal(self):
+        self.fourierSignal = fft(self.y,n=1000000)#, n=100000)
+        #self.signal_psd = 20 * np.log(np.abs(self.fourierSignal))
+        self.f = fftfreq(len(self.fourierSignal), self.dt)
+        i = self.f > 0
+        self.f = self.f[i]
+        self.fourierSignal = self.fourierSignal[i]
+
+        self.frequencyPlot.canvas.axes.clear()
+        self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin')
+        self.frequencyPlot.canvas.figure.tight_layout()
+        title = "Signal Sampled: " + self.signalType
+        self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
+        self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud [Db]")
+        self.frequencyPlot.canvas.axes.title.set_text(title)
+        self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
+        theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
+        self.frequencyPlot.canvas.axes.set_xlim(0, self.frequency * 10)
+        self.frequencyPlot.canvas.figure.tight_layout()
+        self.frequencyPlot.canvas.draw()
 
 
 
