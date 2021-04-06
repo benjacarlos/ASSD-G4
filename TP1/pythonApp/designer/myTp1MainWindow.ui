@@ -309,7 +309,7 @@
      <string>Signal Type</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="periodInputBox">
+   <widget class="QLineEdit" name="oscilatorPeriod">
     <property name="geometry">
      <rect>
       <x>830</x>
@@ -672,6 +672,16 @@
      </rect>
     </property>
    </widget>
+   <widget class="plotClockClass" name="clockPlot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>20</y>
+      <width>271</width>
+      <height>241</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -685,6 +695,12 @@
    <class>plotFrequencyClass</class>
    <extends>QWidget</extends>
    <header>plotfrequencyclass.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>plotClockClass</class>
+   <extends>QWidget</extends>
+   <header>plotclockclass.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

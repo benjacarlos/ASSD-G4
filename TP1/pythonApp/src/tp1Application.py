@@ -40,11 +40,30 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.vp = float(self.vpForSine.text())
         self.frequency = float(self.fForSine.text())
         self.phase = float(self.phaseForSine.text())
-        self.period = float(self.periodInputBox.text())
+        self.period = float(self.oscilatorPeriod.text())
         self.dutyCycle = float(self.dutyCycleInputBox.text())
         self.defineInput()
         self.plotTimeSignal()
         self.plotFrequencySignal()
+        self.plotClockSignal()
+
+    def plotClockSignal(self):
+        self.clockPlot.canvas.axes.clear()
+        self.clockPlot.canvas.axes.plot(self.t,self.yForOscillator)
+        self.clockPlot.canvas.figure.tight_layout()
+        #title = "Sampler Clock"
+        self.clockPlot.canvas.axes.axes.set_xlabel("Time [s]")
+        self.clockPlot.canvas.axes.axes.set_ylabel("V [V]")
+        #self.clockPlot.canvas.axes.title.set_text(title)
+        self.clockPlot.canvas.axes.grid(which='both', axis='both')
+        theLegend = self.clockPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
+        self.clockPlot.canvas.figure.tight_layout()
+
+        self.clockPlot.canvas.draw()
+
+
+    def defineOscillatorSampler(self):
+        self.yForOscillator = (signal.square(2 * np.pi * self.period * self.t, self.dutyCycle) + 1)/2.
 
     def defineInput(self):
         period = 1.0 / self.frequency
@@ -68,7 +87,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
             # self.y = self.amplitude * (m * ym + 1)*yp
         self.dt = self.t[1] - self.t[0]
-
+        self.defineOscillatorSampler()
 
 
 
@@ -84,6 +103,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timePlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
             self.signalWithSH()
+            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin SH')
+            self.timePlot.canvas.figure.tight_layout()
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
         if self.includeRF.isChecked():
@@ -112,6 +133,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
             self.signalWithSH()
+            self.timeToFTT()
+            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH')
+            self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
         if self.includeRF.isChecked():
@@ -142,6 +166,16 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def signalWithSH(self):
         print ("SH esta incluido")
+        self.valueToHold = 0
+        self.yForSignalSH = []
+        for clockSignalIndex in range(len(self.yForOscillator)):
+            if self.yForOscillator[clockSignalIndex] == 1: ##### We have a tick
+                self.yForSignalSH.append(self.y[clockSignalIndex])
+                self.valueToHold = self.y[clockSignalIndex]
+            else:
+                self.yForSignalSH.append(self.valueToHold)
+        self.y = self.yForSignalSH
+
 
     def signalWithAnalogSwitch(self):
         print ("AnalogSwitch esta incluido")

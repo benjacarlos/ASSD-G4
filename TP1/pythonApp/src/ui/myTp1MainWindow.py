@@ -105,9 +105,9 @@ class Ui_MainWindow(object):
         self.signalTypeLabel = QtWidgets.QLabel(self.centralwidget)
         self.signalTypeLabel.setGeometry(QtCore.QRect(80, 50, 81, 21))
         self.signalTypeLabel.setObjectName("signalTypeLabel")
-        self.periodInputBox = QtWidgets.QLineEdit(self.centralwidget)
-        self.periodInputBox.setGeometry(QtCore.QRect(830, 90, 113, 21))
-        self.periodInputBox.setObjectName("periodInputBox")
+        self.oscilatorPeriod = QtWidgets.QLineEdit(self.centralwidget)
+        self.oscilatorPeriod.setGeometry(QtCore.QRect(830, 90, 113, 21))
+        self.oscilatorPeriod.setObjectName("oscilatorPeriod")
         self.dutyCycleInputBox = QtWidgets.QLineEdit(self.centralwidget)
         self.dutyCycleInputBox.setGeometry(QtCore.QRect(830, 140, 113, 21))
         self.dutyCycleInputBox.setObjectName("dutyCycleInputBox")
@@ -210,6 +210,9 @@ class Ui_MainWindow(object):
         self.frequencyPlot = plotFrequencyClass(self.centralwidget)
         self.frequencyPlot.setGeometry(QtCore.QRect(580, 270, 531, 411))
         self.frequencyPlot.setObjectName("frequencyPlot")
+        self.clockPlot = plotClockClass(self.centralwidget)
+        self.clockPlot.setGeometry(QtCore.QRect(420, 20, 271, 241))
+        self.clockPlot.setObjectName("clockPlot")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -246,6 +249,7 @@ class Ui_MainWindow(object):
         self.periodInputLabel_14.setText(_translate("MainWindow", "Vp"))
         self.periodInputLabel_15.setText(_translate("MainWindow", "f"))
         self.periodInputLabel_16.setText(_translate("MainWindow", "θ"))
+from src.plotclockclass import plotClockClass
 from src.plotfrequencyclass import plotFrequencyClass
 from src.plottimeclass import plotTimeClass
 
