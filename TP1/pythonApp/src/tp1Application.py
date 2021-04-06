@@ -61,7 +61,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
         self.clockPlot.canvas.draw()
 
-
     def defineOscillatorSampler(self):
         self.yForOscillator = (signal.square(2 * np.pi * self.period * self.t, self.dutyCycle) + 1)/2.
 
@@ -89,8 +88,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.dt = self.t[1] - self.t[0]
         self.defineOscillatorSampler()
 
-
-
     def plotTimeSignal(self):
 
         self.timePlot.canvas.axes.clear()
@@ -107,6 +104,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timePlot.canvas.figure.tight_layout()
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
+            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin with Analog Switch')
+            self.timePlot.canvas.figure.tight_layout()
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
 
@@ -138,6 +137,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
+            self.timeToFTT()
+            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH and Analog')
+            self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
 
@@ -167,18 +169,26 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
     def signalWithSH(self):
         print ("SH esta incluido")
         self.valueToHold = 0
+        self.changed = False
         self.yForSignalSH = []
         for clockSignalIndex in range(len(self.yForOscillator)):
-            if self.yForOscillator[clockSignalIndex] == 1: ##### We have a tick
+            if self.yForOscillator[clockSignalIndex] == 1:
+                self.yForSignalSH.append(self.valueToHold)
+            if self.yForOscillator[clockSignalIndex] == 0:
                 self.yForSignalSH.append(self.y[clockSignalIndex])
                 self.valueToHold = self.y[clockSignalIndex]
-            else:
-                self.yForSignalSH.append(self.valueToHold)
         self.y = self.yForSignalSH
-
 
     def signalWithAnalogSwitch(self):
         print ("AnalogSwitch esta incluido")
+        tempY = []
+        for i in range(0, len(self.t)):
+            if self.yForOscillator[i] == 1:
+                tempY.append(self.y[i])
+            else:
+                tempY.append(0)
+        self.y = tempY
+
 
     def signalFilteredByRF(self):
         print ("RecoveryFilter esta incluido")
