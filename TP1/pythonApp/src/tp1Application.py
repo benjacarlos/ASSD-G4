@@ -8,7 +8,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(myTp1Application, self).__init__()
         self.setupUi(self)
-        #self.plotTimeSignal()
         self.data = 0
         self.includeFAAOption = False
         self.includeSHOption = False
@@ -84,11 +83,11 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
             self.timePlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
-            print ("SH esta incluido")
+            self.signalWithSH()
         if self.includeAnalogKey.isChecked():
-            print ("Analog Key esta incluido")
+            self.signalWithAnalogSwitch()
         if self.includeRF.isChecked():
-            print ("Recovery Filter esta incluido")
+            self.signalFilteredByRF()
 
         title = "Signal Sampled: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
@@ -112,11 +111,11 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
             self.frequencyPlot.canvas.figure.tight_layout()
         if self.includeSH.isChecked():
-            print ("SH esta incluido")
+            self.signalWithSH()
         if self.includeAnalogKey.isChecked():
-            print ("Analog Key esta incluido")
+            self.signalWithAnalogSwitch()
         if self.includeRF.isChecked():
-            print ("Recovery Filter esta incluido")
+            self.signalFilteredByRF()
 
         title = "Signal Sampled: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
@@ -124,7 +123,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
-        self.frequencyPlot.canvas.axes.set_xlim(0, self.frequency * 10)
+        self.frequencyPlot.canvas.axes.set_xlim(0, self.frequency * 15)
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 
@@ -140,6 +139,16 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         print ("FAA esta incluido")
         (self.num, self.den, self.dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
         self.y = signal.filtfilt(self.num.squeeze(), self.den.squeeze(), self.y)
+
+    def signalWithSH(self):
+        print ("SH esta incluido")
+
+    def signalWithAnalogSwitch(self):
+        print ("AnalogSwitch esta incluido")
+
+    def signalFilteredByRF(self):
+        print ("RecoveryFilter esta incluido")
+
 
 
 
