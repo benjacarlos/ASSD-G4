@@ -243,6 +243,11 @@
     </item>
     <item>
      <property name="text">
+      <string>3/2 Sine</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>Sawtooth</string>
      </property>
     </item>

@@ -19,6 +19,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.phase = 0
         self.period = 0
         self.dutyCycle = 0
+        self.y = []
         self.FAAFilterNum = [1.53832195e+45]
         self.FAAFilterDen = [1, 1.30204833e+06, 1.52443780e+12, 1.09680680e+18, 6.33511591e+23, 2.62677859e+29, 7.97250241e+34, 1.56615935e+40, 1.53832195e+45]
 
@@ -77,6 +78,14 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             period = 1/self.fm
             self.t = np.linspace(0, period, 1000)
             self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
+        elif self.signalType == "3/2 Sine":
+            period = period * 3 / 2
+            self.t = np.linspace(0, 4*period, 1000)
+            t_i = self.vp * np.linspace(0, period, 100)
+            y_i = self.vp * np.sin(2 * np.pi * self.frequency * t_i)
+            for i in range(0, 10):
+                for element in y_i:
+                    self.y.append(element)
         self.dt = self.t[1] - self.t[0]
         self.defineOscillatorSampler()
 
