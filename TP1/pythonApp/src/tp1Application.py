@@ -210,8 +210,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timeToFTT()
         self.frequencyPlot.canvas.axes.clear()
         self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin')
-        #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin')
-
         self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -220,7 +218,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timeToFTT()
             if self.plotIncludeFAA.isChecked():
                 self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin Filtrada')
-                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin Filtrada')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -229,7 +226,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timeToFTT()
             if self.plotIncludeSH.isChecked():
                 self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH')
-                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin SH')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -238,7 +234,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timeToFTT()
             if self.plotIncludeAnalogKey.isChecked():
                 self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH and Analog')
-                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin SH and Analog')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -247,7 +242,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timeToFTT()
             if self.plotIncludeRF.isChecked():
                 self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
-                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin Recovered by RF')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -265,19 +259,16 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def timeToFTT(self):
         self.fourierSignal = fft(self.y,n=1000000)
+
+        ###########################################################################################
+        # Redefino la transformada de Fourier solo para quedarme con las frecuencias positivas.   #
+        # Para mas info: https://docs.scipy.org/doc/scipy/reference/tutorial/fft.html             #
+        ###########################################################################################
+
         self.f = fftfreq(len(self.fourierSignal), self.dt)[:len(self.fourierSignal)//2]
         self.fourierSignal = 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2])
 
-        #positiveFrequency = []
 
-        #for frequencyValue in self.f:
-        #    if frequencyValue > 0:
-        #        positiveFrequency.append(True)
-        #    else:
-        #        positiveFrequency.append(False)
-
-        #self.f = self.f[positiveFrequency]
-        #self.fourierSignal = self.fourierSignal[positiveFrequency]
 
     def signalFilteredByFAA(self):
         print ("FAA esta incluido")
@@ -317,7 +308,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def signalFilteredByRF(self):
         print ("RecoveryFilter esta incluido")
-        # Se usa RF el mismo que FAA
+
+        # Se usa RF el mismo que FAA por diseño del grupo
 
         self.signalFilteredByFAA()
 
