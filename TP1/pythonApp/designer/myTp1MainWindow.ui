@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>150</x>
-      <y>810</y>
+      <y>720</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -31,7 +31,7 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>810</y>
+      <y>720</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -44,7 +44,7 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>810</y>
+      <y>720</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>810</y>
+      <y>720</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -70,7 +70,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>790</y>
+      <y>700</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>790</y>
+      <y>700</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -96,7 +96,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>790</y>
+      <y>700</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>780</x>
-      <y>790</y>
+      <y>700</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -292,7 +292,7 @@
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>820</y>
+      <y>730</y>
       <width>171</width>
       <height>32</height>
      </rect>
@@ -698,6 +698,138 @@
     </property>
     <property name="text">
      <string>Clock Signal</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="itbaLogoPlacer">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>770</y>
+      <width>211</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../../../../../Desktop/itbaLogo.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="plotIncludeFAA">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>750</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="plotIncludeSH">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>750</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="plotIncludeAnalogKey">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>750</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="plotIncludeRF">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>750</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plotLabel">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>750</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plot</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plotLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>750</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plot</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plotLabel_3">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>750</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plot</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="plotLabel_4">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>750</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Plot</string>
     </property>
    </widget>
   </widget>

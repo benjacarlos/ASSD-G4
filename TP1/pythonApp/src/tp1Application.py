@@ -61,16 +61,37 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.yForOscillator = (signal.square(2 * np.pi * self.period * self.t, self.dutyCycle) + 1)/2.
 
     def defineInput(self):
+
         period = 1.0 / self.frequency
         self.t = np.linspace(0, 4*period, 1000)
+
+
         if self.signalType == 'Sine':
             self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t)
+
+
         elif self.signalType == 'Cosine':
             self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + 0.5*np.pi)
+
+
         elif self.signalType == 'Sawtooth':
             self.y = self.vp * signal.sawtooth(2*np.pi*self.frequency*self.t)
+
+
         elif self.signalType == 'Impulse':
             self.y = self.vp * signal.square(2 * np.pi * self.frequency * self.t, 0.5)
+
+
+        elif self.signalType == "3/2 Sine":
+            self.y=[]
+            period = period * 3 / 2
+            self.t = np.linspace(0, 4*period, 1000)
+            temp_t =  np.linspace(0, period, 100)
+            temp_y = self.vp * np.sin(2 * np.pi * self.frequency * temp_t)
+            for i in range(0, 10):              # 10 * 100 = 1000 . Size of t array. Don-t change
+                for tempSinSum in temp_y:
+                    self.y.append(tempSinSum)
+
         elif self.signalType == 'AM':
             self.fm = 0.2 * self.frequency
             self.fp = 2 * self.frequency
@@ -78,14 +99,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             period = 1/self.fm
             self.t = np.linspace(0, period, 1000)
             self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
-        elif self.signalType == "3/2 Sine":
-            period = period * 3 / 2
-            self.t = np.linspace(0, 4*period, 1000)
-            t_i = self.vp * np.linspace(0, period, 100)
-            y_i = self.vp * np.sin(2 * np.pi * self.frequency * t_i)
-            for i in range(0, 10):
-                for element in y_i:
-                    self.y.append(element)
+
+
         self.dt = self.t[1] - self.t[0]
         self.defineOscillatorSampler()
 
@@ -95,27 +110,41 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
         self.timePlot.canvas.figure.tight_layout()
 
+
+
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
-            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
-            self.timePlot.canvas.figure.tight_layout()
+            if self.plotIncludeFAA.isChecked():
+                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
+                self.timePlot.canvas.figure.tight_layout()
+
+
         if self.includeSH.isChecked():
             self.signalWithSH()
-            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin SH')
-            self.timePlot.canvas.figure.tight_layout()
+            if self.plotIncludeSH.isChecked():
+                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin SH')
+                self.timePlot.canvas.figure.tight_layout()
+
+
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
-            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin with Analog Switch')
-            self.timePlot.canvas.figure.tight_layout()
+            if self.plotIncludeAnalogKey.isChecked():
+                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin with Analog Switch')
+                self.timePlot.canvas.figure.tight_layout()
+
+
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
-            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Recovered with RF')
-            self.timePlot.canvas.figure.tight_layout()
+            if self.plotIncludeRF.isChecked():
+                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Recovered with RF')
+                self.timePlot.canvas.figure.tight_layout()
+
+
 
         self.timePlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
         title = "Signal Sampled: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
-        self.timePlot.canvas.axes.axes.set_ylabel("V [V]")
+        self.timePlot.canvas.axes.axes.set_ylabel("Amplitude [V]")
         self.timePlot.canvas.axes.title.set_text(title)
         self.timePlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.timePlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
@@ -129,30 +158,43 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin')
         self.frequencyPlot.canvas.figure.tight_layout()
 
+
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
             self.timeToFTT()
-            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
-            self.frequencyPlot.canvas.figure.tight_layout()
+            if self.plotIncludeFAA.isChecked():
+                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
+                self.frequencyPlot.canvas.figure.tight_layout()
+
+
         if self.includeSH.isChecked():
             self.signalWithSH()
             self.timeToFTT()
-            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH')
-            self.frequencyPlot.canvas.figure.tight_layout()
+            if self.plotIncludeSH.isChecked():
+                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH')
+                self.frequencyPlot.canvas.figure.tight_layout()
+
+
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
             self.timeToFTT()
-            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH and Analog')
-            self.frequencyPlot.canvas.figure.tight_layout()
+            if self.plotIncludeAnalogKey.isChecked():
+                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH and Analog')
+                self.frequencyPlot.canvas.figure.tight_layout()
+
+
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
             self.timeToFTT()
-            self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
-            self.frequencyPlot.canvas.figure.tight_layout()
+            if self.plotIncludeRF.isChecked():
+                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
+                self.frequencyPlot.canvas.figure.tight_layout()
+
+
 
         self.frequencyPlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
-        title = "Signal Sampled: " + self.signalType
-        self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
+        title = "Spectrum - Signal Sampled: " + self.signalType
+        self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [Hz]")
         self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud [Db]")
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
@@ -163,14 +205,22 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def timeToFTT(self):
         self.fourierSignal = fft(self.y,n=1000000)
-        #self.signal_psd = 20 * np.log(np.abs(self.fourierSignal))
         self.f = fftfreq(len(self.fourierSignal), self.dt)
-        i = self.f > 0
-        self.f = self.f[i]
-        self.fourierSignal = self.fourierSignal[i]
+
+        positiveFrequency = []
+
+        for frequencyValue in self.f:
+            if frequencyValue > 0:
+                positiveFrequency.append(True)
+            else:
+                positiveFrequency.append(False)
+
+        self.f = self.f[positiveFrequency]
+        self.fourierSignal = self.fourierSignal[positiveFrequency]
 
     def signalFilteredByFAA(self):
         print ("FAA esta incluido")
+
         (self.num, self.den, self.dt) = signal.cont2discrete((self.FAAFilterNum, self.FAAFilterDen), self.dt)
         self.y = signal.filtfilt(self.num.squeeze(), self.den.squeeze(), self.y)
 
@@ -179,17 +229,23 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.valueToHold = 0
         self.changed = False
         self.yForSignalSH = []
+
         for clockSignalIndex in range(len(self.yForOscillator)):
+
             if self.yForOscillator[clockSignalIndex] == 1:
                 self.yForSignalSH.append(self.valueToHold)
+
             if self.yForOscillator[clockSignalIndex] == 0:
                 self.yForSignalSH.append(self.y[clockSignalIndex])
                 self.valueToHold = self.y[clockSignalIndex]
+
         self.y = self.yForSignalSH
 
     def signalWithAnalogSwitch(self):
         print ("AnalogSwitch esta incluido")
+
         tempY = []
+
         for i in range(0, len(self.t)):
             if self.yForOscillator[i] == 1:
                 tempY.append(self.y[i])
