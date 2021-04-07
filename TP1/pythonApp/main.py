@@ -41,6 +41,6 @@ if __name__ == "__main__":
 
     #############################################
 
-    widget.setWindowTitle("Trabajo Práctico 1 - Grupo 4 - ASSD")
+    widget.setWindowTitle("Trabajo Práctico 1 - Grupo 4 - ASSD - 1Q2021")
     widget.show()
     app.exec()
