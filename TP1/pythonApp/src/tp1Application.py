@@ -9,10 +9,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         super(myTp1Application, self).__init__()
         self.setupUi(self)
         self.data = 0
-        #self.includeFAAOption = False
-        #self.includeSHOption = False
-        #self.includeAnalogSwitchOption = False
-        #self.includeRFilterOption = False
         self.signalType = "Nada"
         self.frequency = 0
         self.vp = 0
@@ -40,19 +36,21 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         msgBox.setText("ASSD - 1Q2021 \n \n Profesor: \n Jacoby, Daniel \n \n Alumnos:\n Chiocci, Ramiro \n Lin, Benjamín \n Mestanza,Nicolás \n Molina, Facundo \n Navarro, Paulo")
         msgBox.setWindowTitle("QMessageBox Example")
         msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        #msgBox.buttonClicked.connect(msgButtonClick)
         msgBox.exec()
 
     def acceptParameters(self):
+        self.signalType = "Nada"
+        self.frequency = 0
+        self.vp = 0
+        self.phase = 0
+        self.period = 0
+        self.dutyCycle = 0
+        self.y = []
         ErrorMessage = ""
         msgWrongInput = QMessageBox()
         msgWrongInput.setIcon(QMessageBox.Warning)
         msgWrongInput.setWindowTitle('Error')
 
-        #self.includeFAAOption = False
-        #self.includeSHOption = False
-        #self.includeAnalogSwitchOption = False
-        #self.includeRFilterOption = False
         self.signalType = str(self.signalTypeInput.currentText())
 
         try:
@@ -143,10 +141,10 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.y=[]
             period = period * 3 / 2
             self.t = np.linspace(0, 4*period, 1000)
-            temp_t =  np.linspace(0, period, 100)
-            temp_y = self.vp * np.sin(2 * np.pi * self.frequency * temp_t)
+            tempT =  np.linspace(0, period, 100)
+            tempY = self.vp * np.sin(2 * np.pi * self.frequency * tempT)
             for i in range(0, 10):              # 10 * 100 = 1000 . Size of t array. Don-t change
-                for tempSinSum in temp_y:
+                for tempSinSum in tempY:
                     self.y.append(tempSinSum)
 
         elif self.signalType == 'AM':
@@ -211,7 +209,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
     def plotFrequencySignal(self):
         self.timeToFTT()
         self.frequencyPlot.canvas.axes.clear()
-        self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin')
+        self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin')
+        #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin')
+
         self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -219,7 +219,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.signalFilteredByFAA()
             self.timeToFTT()
             if self.plotIncludeFAA.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Filtrada')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin Filtrada')
+                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin Filtrada')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -227,7 +228,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.signalWithSH()
             self.timeToFTT()
             if self.plotIncludeSH.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH')
+                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin SH')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -235,7 +237,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.signalWithAnalogSwitch()
             self.timeToFTT()
             if self.plotIncludeAnalogKey.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin SH and Analog')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH and Analog')
+                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin SH and Analog')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -244,6 +247,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timeToFTT()
             if self.plotIncludeRF.isChecked():
                 self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
+                #self.frequencyPlot.canvas.axes.plot(self.f, 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2]), label='Xin Recovered by RF')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -261,18 +265,19 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def timeToFTT(self):
         self.fourierSignal = fft(self.y,n=1000000)
-        self.f = fftfreq(len(self.fourierSignal), self.dt)
+        self.f = fftfreq(len(self.fourierSignal), self.dt)[:len(self.fourierSignal)//2]
+        self.fourierSignal = 2.0/len(self.fourierSignal) * np.abs(self.fourierSignal[0:len(self.fourierSignal)//2])
 
-        positiveFrequency = []
+        #positiveFrequency = []
 
-        for frequencyValue in self.f:
-            if frequencyValue > 0:
-                positiveFrequency.append(True)
-            else:
-                positiveFrequency.append(False)
+        #for frequencyValue in self.f:
+        #    if frequencyValue > 0:
+        #        positiveFrequency.append(True)
+        #    else:
+        #        positiveFrequency.append(False)
 
-        self.f = self.f[positiveFrequency]
-        self.fourierSignal = self.fourierSignal[positiveFrequency]
+        #self.f = self.f[positiveFrequency]
+        #self.fourierSignal = self.fourierSignal[positiveFrequency]
 
     def signalFilteredByFAA(self):
         print ("FAA esta incluido")
@@ -312,7 +317,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def signalFilteredByRF(self):
         print ("RecoveryFilter esta incluido")
-        # Se usa como RF el mismo que FAA
+        # Se usa RF el mismo que FAA
+
         self.signalFilteredByFAA()
 
 
