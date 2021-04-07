@@ -337,27 +337,27 @@
    <widget class="QLabel" name="periodInputLabel">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>779</x>
       <y>90</y>
-      <width>60</width>
-      <height>16</height>
+      <width>41</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Period</string>
+     <string>fs [Hz]</string>
     </property>
    </widget>
    <widget class="QLabel" name="dutyCycleInputLabel">
     <property name="geometry">
      <rect>
-      <x>749</x>
+      <x>719</x>
       <y>140</y>
-      <width>71</width>
+      <width>101</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Duty Cycle</string>
+     <string>Duty Cycle [%]</string>
     </property>
    </widget>
    <widget class="QStackedWidget" name="stackedInputSignalOptions">
@@ -383,7 +383,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>θ</string>
+       <string>θ [°]</string>
       </property>
      </widget>
      <widget class="QLabel" name="periodInputLabel_6">
@@ -396,7 +396,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>f</string>
+       <string>f [Hz]</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="phaseForSine">
@@ -419,7 +419,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Vp</string>
+       <string>Vp [V]</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="fForSine">
@@ -830,6 +830,24 @@
     </property>
     <property name="text">
      <string>Plot</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="creditsButton">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>10</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Credits</string>
     </property>
    </widget>
   </widget>

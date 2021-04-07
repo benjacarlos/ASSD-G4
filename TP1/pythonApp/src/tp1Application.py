@@ -9,10 +9,10 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         super(myTp1Application, self).__init__()
         self.setupUi(self)
         self.data = 0
-        self.includeFAAOption = False
-        self.includeSHOption = False
-        self.includeAnalogSwitchOption = False
-        self.includeRFilterOption = False
+        #self.includeFAAOption = False
+        #self.includeSHOption = False
+        #self.includeAnalogSwitchOption = False
+        #self.includeRFilterOption = False
         self.signalType = "Nada"
         self.frequency = 0
         self.vp = 0
@@ -20,12 +20,28 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.period = 0
         self.dutyCycle = 0
         self.y = []
+
+        #######################################
+        # Definición de FAA y RF implementado #
+        # Legendre, N=8, fp=100K, fa=150k     #
+        # Ap=40, Aa=1                         #
+        #######################################
+
         self.FAAFilterNum = [1.53832195e+45]
         self.FAAFilterDen = [1, 1.30204833e+06, 1.52443780e+12, 1.09680680e+18, 6.33511591e+23, 2.62677859e+29, 7.97250241e+34, 1.56615935e+40, 1.53832195e+45]
 
 
         self.acceptParametersButton.clicked.connect(self.acceptParameters)
+        self.creditsButton.clicked.connect(self.showCredits)
 
+    def showCredits(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setText("ASSD - 1Q2021 \n \n Profesor: \n Jacoby, Daniel \n \n Alumnos:\n Chiocci, Ramiro \n Lin, Benjamín \n Mestanza,Nicolás \n Molina, Facundo \n Navarro, Paulo")
+        msgBox.setWindowTitle("QMessageBox Example")
+        msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        #msgBox.buttonClicked.connect(msgButtonClick)
+        msgBox.exec()
 
     def acceptParameters(self):
         ErrorMessage = ""
@@ -33,20 +49,61 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         msgWrongInput.setIcon(QMessageBox.Warning)
         msgWrongInput.setWindowTitle('Error')
 
-        self.includeFAAOption = False
-        self.includeSHOption = False
-        self.includeAnalogSwitchOption = False
-        self.includeRFilterOption = False
+        #self.includeFAAOption = False
+        #self.includeSHOption = False
+        #self.includeAnalogSwitchOption = False
+        #self.includeRFilterOption = False
         self.signalType = str(self.signalTypeInput.currentText())
-        self.vp = float(self.vpForSine.text())
-        self.frequency = float(self.fForSine.text())
-        self.phase = float(self.phaseForSine.text())
-        self.period = float(self.oscilatorPeriod.text())
-        self.dutyCycle = float(self.dutyCycleInputBox.text())
-        self.defineInput()
-        self.plotTimeSignal()
-        self.plotFrequencySignal()
-        self.plotClockSignal()
+
+        try:
+            self.vp = float(self.vpForSine.text())
+            if (self.vp <= 0) or (self.vp > 10) :
+                raise Exception("Exception")
+        except:
+            ErrorMessage = ErrorMessage + "The Vp must be a valid number (0 to 10 V) \n"
+
+        try:
+            self.frequency = float(self.fForSine.text())
+            if (self.frequency <= 0):
+                raise Exception("Exception")
+        except:
+            ErrorMessage = ErrorMessage + "The frequency must be a valid postive number\n"
+
+        try:
+            self.phase = float(self.phaseForSine.text())
+        except:
+            ErrorMessage = ErrorMessage + "The Phase must be a valid number\n"
+
+        try:
+            self.period = float(self.oscilatorPeriod.text())
+            if self.period <= 0:
+                raise Exception("Exception")
+        except:
+            ErrorMessage = ErrorMessage + "The Fs must be a valid positive number\n"
+
+        try:
+            self.dutyCycle = float(self.dutyCycleInputBox.text())/100
+            if self.dutyCycle <= 0 or self.dutyCycle > 1:
+                raise Exception("Exception")
+        except:
+            ErrorMessage = ErrorMessage + "The Duty Cycle must be a valid number (0 to 100)\n"
+
+        if ErrorMessage != "":
+            msgWrongInput.setText(ErrorMessage)
+            msgWrongInput.exec()
+            self.signalType = "Nada"
+            self.frequency = 0
+            self.vp = 0
+            self.phase = 0
+            self.period = 0
+            self.dutyCycle = 0
+            self.y = []
+
+        else:
+            self.defineInput()
+            self.plotTimeSignal()
+            self.plotFrequencySignal()
+            self.plotClockSignal()
 
     def plotClockSignal(self):
         self.clockPlot.canvas.axes.clear()
@@ -102,6 +159,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
 
         self.dt = self.t[1] - self.t[0]
+
         self.defineOscillatorSampler()
 
     def plotTimeSignal(self):
@@ -109,8 +167,6 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.axes.clear()
         self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
         self.timePlot.canvas.figure.tight_layout()
-
-
 
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
@@ -195,7 +251,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
         title = "Spectrum - Signal Sampled: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [Hz]")
-        self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud [Db]")
+        self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud []")
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
@@ -256,6 +312,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def signalFilteredByRF(self):
         print ("RecoveryFilter esta incluido")
+        # Se usa como RF el mismo que FAA
         self.signalFilteredByFAA()
 
 
