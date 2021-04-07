@@ -51,14 +51,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.clockPlot.canvas.axes.clear()
         self.clockPlot.canvas.axes.plot(self.t,self.yForOscillator)
         self.clockPlot.canvas.figure.tight_layout()
-        #title = "Sampler Clock"
         self.clockPlot.canvas.axes.axes.set_xlabel("Time [s]")
-        self.clockPlot.canvas.axes.axes.set_ylabel("V [V]")
-        #self.clockPlot.canvas.axes.title.set_text(title)
         self.clockPlot.canvas.axes.grid(which='both', axis='both')
-        theLegend = self.clockPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
         self.clockPlot.canvas.figure.tight_layout()
-
         self.clockPlot.canvas.draw()
 
     def defineOscillatorSampler(self):
@@ -81,10 +76,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             m = 0.5
             period = 1/self.fm
             self.t = np.linspace(0, period, 1000)
-            ym = np.cos(2 * np.pi * self.fm * self.t)
-            yp = np.cos(2 * np.pi * self.fp * self.t)
             self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
-            # self.y = self.amplitude * (m * ym + 1)*yp
         self.dt = self.t[1] - self.t[0]
         self.defineOscillatorSampler()
 
@@ -111,7 +103,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Recovered with RF')
             self.timePlot.canvas.figure.tight_layout()
 
-
+        self.timePlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
         title = "Signal Sampled: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
         self.timePlot.canvas.axes.axes.set_ylabel("V [V]")
@@ -149,14 +141,14 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
             self.frequencyPlot.canvas.figure.tight_layout()
 
-
+        self.frequencyPlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
         title = "Signal Sampled: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [s]")
         self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud [Db]")
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
-        self.frequencyPlot.canvas.axes.set_xlim(0, self.frequency * 15)
+        self.frequencyPlot.canvas.axes.set_xlim(0, 400000)
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 

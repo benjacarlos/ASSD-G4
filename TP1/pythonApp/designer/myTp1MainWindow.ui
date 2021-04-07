@@ -682,6 +682,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="clockSignalLabel">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>0</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clock Signal</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

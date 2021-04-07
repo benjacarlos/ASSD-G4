@@ -213,6 +213,9 @@ class Ui_MainWindow(object):
         self.clockPlot = plotClockClass(self.centralwidget)
         self.clockPlot.setGeometry(QtCore.QRect(420, 20, 271, 241))
         self.clockPlot.setObjectName("clockPlot")
+        self.clockSignalLabel = QtWidgets.QLabel(self.centralwidget)
+        self.clockSignalLabel.setGeometry(QtCore.QRect(420, 0, 121, 16))
+        self.clockSignalLabel.setObjectName("clockSignalLabel")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -249,6 +252,7 @@ class Ui_MainWindow(object):
         self.periodInputLabel_14.setText(_translate("MainWindow", "Vp"))
         self.periodInputLabel_15.setText(_translate("MainWindow", "f"))
         self.periodInputLabel_16.setText(_translate("MainWindow", "θ"))
+        self.clockSignalLabel.setText(_translate("MainWindow", "Clock Signal"))
 from src.plotclockclass import plotClockClass
 from src.plotfrequencyclass import plotFrequencyClass
 from src.plottimeclass import plotTimeClass
