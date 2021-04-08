@@ -155,12 +155,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
                     self.y.append(tempSinSum)
 
         elif self.signalType == 'AM':
-            self.fm = 0.2 * self.frequency
-            self.fp = 2 * self.frequency
-            m = 0.5
-            period = 1/self.fm
-            self.t = np.linspace(0, period, 1000)
-            self.y = np.cos(2 * np.pi * 1.8 * self.fp * self.t) + 2*np.cos(2 * np.pi * 2 * self.fp * self.t) + np.cos(2*np.pi*2.2 * self.fp * self.t)
+            print ('Aun no fui desarrollada')
 
 
         self.dt = self.t[1] - self.t[0]
@@ -260,7 +255,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
-        self.frequencyPlot.canvas.axes.set_xlim(0, 400000)
+        self.frequencyPlot.canvas.axes.set_xlim(0, 1000000)
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 
