@@ -3,7 +3,7 @@ clc
 
 q=6.58;
 c=12e-9;
-wo=sqrt(3.98e11);
+wo=sqrt(3.68e11);
 r=1/(wo*c);
 r2=r;
 r4=r2;
