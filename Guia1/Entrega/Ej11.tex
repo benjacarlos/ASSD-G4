@@ -1,0 +1,54 @@
+\section*{Ejercicio 11}
+
+\begin{figure}
+	\includegraphics[scale=0.6]{j11_esquema.png}
+	\centering
+\end{figure}
+
+La ecuación de diferencia del sistema mostrado anteriormente es:
+
+$y(nT) = 0,4 x(nT) + 0,4 y(nT-T) = 0,4 x(nT) + 0,4 y(T(n-1))$
+
+\subsection*{Inciso a}
+
+Aplicando la transformada Z a la ecuación de diferencias se obtiene:
+\newline
+$\\$
+
+\begin{eq}
+Z[y(nT)] = Y(z) = 0,4X(z) + 0,4Y(z).z^{-1}\\
+
+Y(z) (1-0,4z^{-1}) = 0,4X(z)\\
+\end{eq}
+
+Por lo que la transferencia con variable Z sería:
+
+
+    $H(z) = \frac{Y(z)}{X(z)} = \frac{0,4}{1-0,4z^{-1}} = \frac{0,4z}{z-0,4}$
+
+Antitransformando obtengo $h(n)$:
+
+\begin{eq}
+    h(n) = 0,4^{n+1}.u(n)
+\end{eq}
+\centering
+
+\subsection*{Inciso b}
+Para calcular la respuesta en frecuencia de la ganancia, se calcula el módulo de H(f)
+
+\begin{align*}
+    |H(e^{j2 \pi fT})|^2 = H(e^{j2\pi fT}) \overline{ H(e^{j2\pi fT}) } \\
+    |H(e^{j2 \pi fT})|^2 = \frac{ 0,4 }{ 1-0,4e^{-j2\pi fT} } \frac{0,4}{1-0,4e^{j2 \pi fT}}\\
+    |H(e^{j2 \pi fT})|^2 = \frac{ 0,4^2 }{ 1 + 0,4^2 - 0,8 cos(2 \pi fT) }\\
+    |H(e^{j2 \pi fT})|^2 = \frac{ 0,16 }{ 1,16 - 0,8 cos(2 \pi fT)}\\
+\end{align*}
+Por lo que si busco la ganancia en$f=0$:
+
+$|H(e^{j \omega T})|^2 = \frac{1}{2} |H(1)|^2 = \frac{1}{2} \frac{ 0,16 }{ 1,16-0,8 } = \frac{2}{9}\\$
+Entonces si quiero calcular la frecuencia para la cual la ganancia es 3dB menor que la ganancia en continua:
+
+\begin{align*}
+    cos(\omega T) = \frac{ 1 + 0,4^2 - \frac{9}{2} 0,4^2 }{ 0,8 }\\
+    f= \frac{cos^{-1}(\frac{ 1 + 0,4^2 - \frac{9}{2} 0,4^2 }{ 0,8 })}{2\pi T}\\
+    f=157,31Hz
+\end{align*}
