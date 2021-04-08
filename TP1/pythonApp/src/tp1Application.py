@@ -46,6 +46,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.period = 0
         self.dutyCycle = 0
         self.y = []
+        self.dt = 0
+        self.f=0
+        self.fourierSignal = 0
         ErrorMessage = ""
         msgWrongInput = QMessageBox()
         msgWrongInput.setIcon(QMessageBox.Warning)
@@ -96,10 +99,14 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.period = 0
             self.dutyCycle = 0
             self.y = []
+            self.dt = 0
+            self.f=0
+            self.fourierSignal=0
 
         else:
             self.defineInput()
             self.plotTimeSignal()
+            self.defineInput()
             self.plotFrequencySignal()
             self.plotClockSignal()
 
@@ -196,7 +203,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
 
         self.timePlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
-        title = "Signal Sampled: " + self.signalType
+        title = "Signal: " + self.signalType
         self.timePlot.canvas.axes.axes.set_xlabel("Time [s]")
         self.timePlot.canvas.axes.axes.set_ylabel("Amplitude [V]")
         self.timePlot.canvas.axes.title.set_text(title)
@@ -247,9 +254,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
 
         self.frequencyPlot.canvas.axes.axes.tick_params(axis='x',labelrotation=90)
-        title = "Spectrum - Signal Sampled: " + self.signalType
+        title = "Spectrum: " + self.signalType
         self.frequencyPlot.canvas.axes.axes.set_xlabel("Frequency [Hz]")
-        self.frequencyPlot.canvas.axes.axes.set_ylabel("Amplitud []")
+        self.frequencyPlot.canvas.axes.axes.set_ylabel("Magnitude")
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
