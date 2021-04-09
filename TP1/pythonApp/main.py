@@ -10,7 +10,7 @@ from src.tp1Application import myTp1Application
 
 
 ##################################
-# TP1                            #
+# GRUPO 4 - ASSD - TP1 - 2021 :) #
 ##################################
 
 if __name__ == "__main__":
