@@ -155,8 +155,8 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
                     self.y.append(tempSinSum)
 
         elif self.signalType == 'AM':
-            print ('Aun no fui desarrollada')
-
+            self.t = np.linspace(0, 16*period, 1000)
+            self.y = self.vp * ((1/2)*np.cos( 2 * np.pi * 1.8 * self.frequency * self.t) + np.cos(2 * np.pi * 2 * self.frequency * self.t) + (1/2) * np.cos(2 * np.pi * 2.2 * self.frequency * self.t))
 
         self.dt = self.t[1] - self.t[0]
 
@@ -165,8 +165,9 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
     def plotTimeSignal(self):
 
         self.timePlot.canvas.axes.clear()
-        self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
-        self.timePlot.canvas.figure.tight_layout()
+        if self.plotXin.isChecked():
+            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
+            self.timePlot.canvas.figure.tight_layout()
 
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
@@ -209,10 +210,12 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.timePlot.canvas.draw()
 
     def plotFrequencySignal(self):
-        self.timeToFTT()
+
         self.frequencyPlot.canvas.axes.clear()
-        self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin')
-        self.frequencyPlot.canvas.figure.tight_layout()
+        if self.plotXin.isChecked():
+            self.timeToFTT()
+            self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin')
+            self.frequencyPlot.canvas.figure.tight_layout()
 
 
         if self.includeFAA.isChecked():
@@ -235,7 +238,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.signalWithAnalogSwitch()
             self.timeToFTT()
             if self.plotIncludeAnalogKey.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH and Analog')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin with Analog Switch')
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
@@ -255,7 +258,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
-        self.frequencyPlot.canvas.axes.set_xlim(0, 1000000)
+        self.frequencyPlot.canvas.axes.set_xlim(0, 400000)
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 

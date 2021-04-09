@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
         self.dutyCycleInputLabel.setGeometry(QtCore.QRect(719, 140, 101, 20))
         self.dutyCycleInputLabel.setObjectName("dutyCycleInputLabel")
         self.stackedInputSignalOptions = QtWidgets.QStackedWidget(self.centralwidget)
-        self.stackedInputSignalOptions.setGeometry(QtCore.QRect(110, 110, 221, 131))
+        self.stackedInputSignalOptions.setGeometry(QtCore.QRect(110, 90, 221, 131))
         self.stackedInputSignalOptions.setObjectName("stackedInputSignalOptions")
         self.stackedSine = QtWidgets.QWidget()
         self.stackedSine.setObjectName("stackedSine")
@@ -260,6 +260,10 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.creditsButton.setFont(font)
         self.creditsButton.setObjectName("creditsButton")
+        self.plotXin = QtWidgets.QCheckBox(self.centralwidget)
+        self.plotXin.setGeometry(QtCore.QRect(180, 230, 121, 20))
+        self.plotXin.setChecked(True)
+        self.plotXin.setObjectName("plotXin")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -303,6 +307,7 @@ class Ui_MainWindow(object):
         self.plotLabel_3.setText(_translate("MainWindow", "Plot"))
         self.plotLabel_4.setText(_translate("MainWindow", "Plot"))
         self.creditsButton.setText(_translate("MainWindow", "Credits"))
+        self.plotXin.setText(_translate("MainWindow", "Plot Input Signal"))
 from src.plotclockclass import plotClockClass
 from src.plotfrequencyclass import plotFrequencyClass
 from src.plottimeclass import plotTimeClass
