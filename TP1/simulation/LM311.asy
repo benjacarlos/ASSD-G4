@@ -16,10 +16,9 @@ WINDOW 0 32 -40 Left 2
 WINDOW 3 32 40 Left 2
 SYMATTR Value LM311
 SYMATTR Prefix X
-SYMATTR SpiceModel LM311
+SYMATTR SpiceModel LM311.sub
 SYMATTR Value2 LM311
 SYMATTR Description Comparator
-SYMATTR ModelFile FACUsub/LM311.sub
 PIN -32 16 NONE 0
 PINATTR PinName In+
 PINATTR SpiceOrder 1
