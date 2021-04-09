@@ -101,7 +101,7 @@ class Ui_MainWindow(object):
         self.sampleSignalLabel.setGeometry(QtCore.QRect(700, 0, 121, 16))
         self.sampleSignalLabel.setObjectName("sampleSignalLabel")
         self.acceptParametersButton = QtWidgets.QPushButton(self.centralwidget)
-        self.acceptParametersButton.setGeometry(QtCore.QRect(940, 730, 171, 32))
+        self.acceptParametersButton.setGeometry(QtCore.QRect(940, 780, 171, 32))
         self.acceptParametersButton.setObjectName("acceptParametersButton")
         self.signalTypeLabel = QtWidgets.QLabel(self.centralwidget)
         self.signalTypeLabel.setGeometry(QtCore.QRect(80, 50, 81, 21))
@@ -264,6 +264,18 @@ class Ui_MainWindow(object):
         self.plotXin.setGeometry(QtCore.QRect(180, 230, 121, 20))
         self.plotXin.setChecked(True)
         self.plotXin.setObjectName("plotXin")
+        self.maxFToPlot = QtWidgets.QLineEdit(self.centralwidget)
+        self.maxFToPlot.setGeometry(QtCore.QRect(1000, 720, 71, 21))
+        self.maxFToPlot.setObjectName("maxFToPlot")
+        self.maxFToPlotLabel = QtWidgets.QLabel(self.centralwidget)
+        self.maxFToPlotLabel.setGeometry(QtCore.QRect(990, 680, 101, 16))
+        self.maxFToPlotLabel.setObjectName("maxFToPlotLabel")
+        self.maxFToPlotLabel_2 = QtWidgets.QLabel(self.centralwidget)
+        self.maxFToPlotLabel_2.setGeometry(QtCore.QRect(1010, 700, 51, 16))
+        self.maxFToPlotLabel_2.setObjectName("maxFToPlotLabel_2")
+        self.maxFToPlotLabel_3 = QtWidgets.QLabel(self.centralwidget)
+        self.maxFToPlotLabel_3.setGeometry(QtCore.QRect(1080, 720, 21, 20))
+        self.maxFToPlotLabel_3.setObjectName("maxFToPlotLabel_3")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -308,6 +320,10 @@ class Ui_MainWindow(object):
         self.plotLabel_4.setText(_translate("MainWindow", "Plot"))
         self.creditsButton.setText(_translate("MainWindow", "Credits"))
         self.plotXin.setText(_translate("MainWindow", "Plot Input Signal"))
+        self.maxFToPlot.setText(_translate("MainWindow", "400000"))
+        self.maxFToPlotLabel.setText(_translate("MainWindow", "Max Frequency"))
+        self.maxFToPlotLabel_2.setText(_translate("MainWindow", "To Plot"))
+        self.maxFToPlotLabel_3.setText(_translate("MainWindow", "Hz"))
 from src.plotclockclass import plotClockClass
 from src.plotfrequencyclass import plotFrequencyClass
 from src.plottimeclass import plotTimeClass

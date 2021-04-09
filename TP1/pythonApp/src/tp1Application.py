@@ -16,6 +16,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.period = 0
         self.dutyCycle = 0
         self.y = []
+        self.maxF = 0
 
         #######################################
         # Definición de FAA y RF implementado #
@@ -49,6 +50,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.dt = 0
         self.f=0
         self.fourierSignal = 0
+        self.maxF = 0
         ErrorMessage = ""
         msgWrongInput = QMessageBox()
         msgWrongInput.setIcon(QMessageBox.Warning)
@@ -89,6 +91,13 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         except:
             ErrorMessage = ErrorMessage + "The Duty Cycle must be a valid number (0 to 100)\n"
 
+        try:
+            self.maxF = float (self.maxFToPlot.text ())
+            if self.maxF <= 0:
+                raise Exception("Exception")
+        except:
+            ErrorMessage = ErrorMessage + "The Maximum Frequency to Plot must be a Positive Valid Number"
+
         if ErrorMessage != "":
             msgWrongInput.setText(ErrorMessage)
             msgWrongInput.exec()
@@ -102,6 +111,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             self.dt = 0
             self.f=0
             self.fourierSignal=0
+            self.maxF = 0
 
         else:
             self.defineInput()
@@ -258,7 +268,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
         self.frequencyPlot.canvas.axes.title.set_text(title)
         self.frequencyPlot.canvas.axes.grid(which='both', axis='both')
         theLegend = self.frequencyPlot.canvas.axes.legend(fancybox=True, framealpha=0.5, fontsize=6)
-        self.frequencyPlot.canvas.axes.set_xlim(0, 400000)
+        self.frequencyPlot.canvas.axes.set_xlim(0, self.maxF)
         self.frequencyPlot.canvas.figure.tight_layout()
         self.frequencyPlot.canvas.draw()
 
