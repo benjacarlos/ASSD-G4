@@ -174,36 +174,42 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def plotTimeSignal(self):
 
+        theLabel = ''
         self.timePlot.canvas.axes.clear()
         if self.plotXin.isChecked():
-            self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin')
+            theLabel = theLabel + 'Xin'
+            self.timePlot.canvas.axes.plot(self.t,self.y, label=theLabel)
             self.timePlot.canvas.figure.tight_layout()
 
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
+            theLabel = theLabel + '|FAA'
             if self.plotIncludeFAA.isChecked():
-                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Filtrada')
+                self.timePlot.canvas.axes.plot(self.t,self.y,label=theLabel)
                 self.timePlot.canvas.figure.tight_layout()
 
 
         if self.includeSH.isChecked():
             self.signalWithSH()
+            theLabel = theLabel + '|SH'
             if self.plotIncludeSH.isChecked():
-                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin SH')
+                self.timePlot.canvas.axes.plot(self.t,self.y,label=theLabel)
                 self.timePlot.canvas.figure.tight_layout()
 
 
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
+            theLabel = theLabel + '|AS'
             if self.plotIncludeAnalogKey.isChecked():
-                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin with Analog Switch')
+                self.timePlot.canvas.axes.plot(self.t,self.y,label=theLabel)
                 self.timePlot.canvas.figure.tight_layout()
 
 
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
+            theLabel = theLabel + '|RF'
             if self.plotIncludeRF.isChecked():
-                self.timePlot.canvas.axes.plot(self.t,self.y,label='Xin Recovered with RF')
+                self.timePlot.canvas.axes.plot(self.t,self.y,label=theLabel)
                 self.timePlot.canvas.figure.tight_layout()
 
 
@@ -221,42 +227,48 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
     def plotFrequencySignal(self):
 
+        theLabel = ''
         self.frequencyPlot.canvas.axes.clear()
         if self.plotXin.isChecked():
+            theLabel = theLabel + 'Xin'
             self.timeToFTT()
-            self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin')
+            self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label=theLabel)
             self.frequencyPlot.canvas.figure.tight_layout()
 
 
         if self.includeFAA.isChecked():
             self.signalFilteredByFAA()
             self.timeToFTT()
+            theLabel = theLabel + '|FAA'
             if self.plotIncludeFAA.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin Filtrada')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label=theLabel)
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
         if self.includeSH.isChecked():
             self.signalWithSH()
             self.timeToFTT()
+            theLabel = theLabel + '|SH'
             if self.plotIncludeSH.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin SH')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label=theLabel)
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
         if self.includeAnalogKey.isChecked():
             self.signalWithAnalogSwitch()
             self.timeToFTT()
+            theLabel = theLabel + '|AS'
             if self.plotIncludeAnalogKey.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label='Xin with Analog Switch')
+                self.frequencyPlot.canvas.axes.plot(self.f, self.fourierSignal, label=theLabel)
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
         if self.includeRF.isChecked():
             self.signalFilteredByRF()
             self.timeToFTT()
+            theLabel = theLabel + '|RF'
             if self.plotIncludeRF.isChecked():
-                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label='Xin Recovered by RF')
+                self.frequencyPlot.canvas.axes.plot(self.f, np.abs(self.fourierSignal), label=theLabel)
                 self.frequencyPlot.canvas.figure.tight_layout()
 
 
