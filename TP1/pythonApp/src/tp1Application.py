@@ -139,11 +139,11 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
 
 
         if self.signalType == 'Sine':
-            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t)
+            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + self.phase * np.pi / 180)
 
 
         elif self.signalType == 'Cosine':
-            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + 0.5*np.pi)
+            self.y = self.vp * np.sin(2*np.pi*self.frequency*self.t + 0.5 * np.pi + self.phase * np.pi / 180)
 
 
         elif self.signalType == 'Sawtooth':
@@ -159,7 +159,7 @@ class myTp1Application(QMainWindow, Ui_MainWindow):
             period = period * 3 / 2
             self.t = np.linspace(0, 4*period, 1000)
             tempT =  np.linspace(0, period, 100)
-            tempY = self.vp * np.sin(2 * np.pi * self.frequency * tempT)
+            tempY = self.vp * np.sin ( 2 * np.pi * self.frequency * tempT)
             for i in range(0, 10):              # 10 * 100 = 1000 . Size of t array. Don-t change
                 for tempSinSum in tempY:
                     self.y.append(tempSinSum)

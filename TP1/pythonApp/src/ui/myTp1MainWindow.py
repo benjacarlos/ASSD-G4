@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
         self.itbaLogoPlacer = QtWidgets.QLabel(self.centralwidget)
         self.itbaLogoPlacer.setGeometry(QtCore.QRect(450, 770, 211, 71))
         self.itbaLogoPlacer.setText("")
-        self.itbaLogoPlacer.setPixmap(QtGui.QPixmap("designer/../../../../../../Desktop/itbaLogo.png"))
+        self.itbaLogoPlacer.setPixmap(QtGui.QPixmap("designer/../resources/itbaLogo.png"))
         self.itbaLogoPlacer.setObjectName("itbaLogoPlacer")
         self.plotIncludeFAA = QtWidgets.QCheckBox(self.centralwidget)
         self.plotIncludeFAA.setGeometry(QtCore.QRect(150, 750, 21, 20))
