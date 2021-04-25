@@ -713,7 +713,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../../../../Desktop/itbaLogo.png</pixmap>
+     <pixmap>../resources/itbaLogo.png</pixmap>
     </property>
    </widget>
    <widget class="QCheckBox" name="plotIncludeFAA">
